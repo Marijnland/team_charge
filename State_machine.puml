@@ -11,10 +11,10 @@ valid --> invalid_user : [Invalid_RFID]
 valid --> valid_user : [Valid_RFID]
 
 invalid_user : gives warning INVALID 
-invalid_user --> idle : E_Timer_Elapsed / Get_MQTT_Data()
+invalid_user --> idle : E_Timer_Elapsed_Invalid / Get_MQTT_Data()
 
 valid_user : displays information of the user
-valid_user --> idle : E_Timer_Elapsed / Get_MQTT_Data(), Update_Start_Screen()
+valid_user --> idle : E_Timer_Elapsed_Valid / Get_MQTT_Data(), Update_Start_Screen()
 
 
 @enduml
