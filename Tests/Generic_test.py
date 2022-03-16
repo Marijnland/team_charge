@@ -6,6 +6,7 @@ from PIL import ImageTk, Image
 import os
 import json
 
+
 class charging_spot:
     def __init__(self):
         self.is_active = False
@@ -58,11 +59,48 @@ window.bind("<Escape>", lambda event: window.attributes("-fullscreen", False))
 
 
 #Set image as main window
-image = Image.open("Tests/blauwzwart.png")
+image = Image.open("Tests/klok achtergrond.png")
 img = image.resize((800,480))
-blauwzwart = ImageTk.PhotoImage(img)
-panel1 = Label(window, image = blauwzwart)
-panel1.place(x=0, y=0, relwidth=1, relheight=1)
+background = ImageTk.PhotoImage(img)
+
+pointer_frame = Frame(window)
+#pointer_frame.place(x=0, y=0, relwidth=1, relheight=1)
+pointer_frame.pack()
+
+my_canvas = Canvas(pointer_frame, width=800, height=480)
+my_canvas.pack()
+
+#x,y is middle point of image (800x480)/2:
+my_canvas.create_image(400,240,image=background)
+
+pointer = Image.open("Tests/wijzer.png")
+pointer3 = pointer.rotate(56)
+pointer2 = pointer3.resize((100,100))
+#pointer2.angle=45
+
+Tkpointer = ImageTk.PhotoImage(pointer2)
+
+
+my_canvas.create_image(400,240,image=Tkpointer)
+#panel1 = Label(window, image = background)
+#panel1.place(x=0, y=0, relwidth=1, relheight=1)
+
+#Make frame for pointer 
+
+#pointer_frame.place(x=100, y=100, anchor=W)
+#image2 = Image.open("Tests/wijzer.png")
+#img2 = image2.resize((100,100))
+
+
+
+#pointer_canvas = Canvas(pointer_frame, width=100, height=100)
+#pointer_canvas.pack()
+
+#pointer_canvas.create_image(0, 0, image=pointer)
+
+#pointer_canvas.place(x=5,y=5, relwidth=1, relheight=1)
+#pointer_label = Label(pointer_frame, image = pointer)
+#pointer_label.pack()
 
 
 #Make frame for data overlay
