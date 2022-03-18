@@ -18,24 +18,24 @@ class MainWindow():
         main.bind("<space>", self.spacebar)
 
         #Load the images
-        self.load_image = Image.open("V1/Resources/background.png")
+        self.load_image = Image.open("Resources/background.png")
         self.tk_background_image = ImageTk.PhotoImage(self.load_image)
 
-        self.load_image = Image.open("V1/Resources/pointer.png")
+        self.load_image = Image.open("Resources/pointer.png")
         self.pointer_image = self.load_image.resize((12,220), Image.ANTIALIAS)
         self.pointer_image_rotated = self.pointer_image.rotate(87, expand=True)
         self.tk_pointer_image = ImageTk.PhotoImage(self.pointer_image_rotated)
 
-        self.load_image = Image.open("V1/Resources/foreground.png")
+        self.load_image = Image.open("Resources/foreground.png")
         self.tk_foreground_image = ImageTk.PhotoImage(self.load_image)
 
-        self.load_image = Image.open("V1/Resources/red_light.png")
+        self.load_image = Image.open("Resources/red_light.png")
         self.tk_red_light_image = ImageTk.PhotoImage(self.load_image)
 
-        self.load_image = Image.open("V1/Resources/orange_light.png")
+        self.load_image = Image.open("Resources/orange_light.png")
         self.tk_orange_light_image = ImageTk.PhotoImage(self.load_image)
 
-        self.load_image = Image.open("V1/Resources/green_light.png")
+        self.load_image = Image.open("Resources/green_light.png")
         self.tk_green_light_image = ImageTk.PhotoImage(self.load_image)
 
         #Make frame to show the images in a canvas
@@ -113,4 +113,5 @@ class MainWindow():
             self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_left, state="normal")
             self.show = True
             self.mainwindow_canvas.after(600, self.toggle_red_light)
+
 
