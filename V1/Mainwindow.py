@@ -1,18 +1,20 @@
 from tkinter import *
 from PIL import ImageTk, Image
+import random
 
 class MainWindow():
 
     angle = 0
     show = False
 
-    def __init__(self, main):
+    def __init__(self, main, chargingspot_1, chargingspot_2):
+        self.spot1 = chargingspot_1
+        self.spot2 = chargingspot_2
+
         self.main = main
         main.title("Welcome to the CHARGE interface!")
         main.geometry('800x480')
         #main.bind("<Escape>", lambda event: window.attributes("-fullscreen", False))
-        main.bind("<Left>", self.keyleft)
-        main.bind("<Right>", self.keyright)
         main.bind("<space>", self.spacebar)
 
         #Load the images
@@ -21,7 +23,7 @@ class MainWindow():
 
         self.load_image = Image.open("V1/Resources/pointer.png")
         self.pointer_image = self.load_image.resize((12,220), Image.ANTIALIAS)
-        self.pointer_image_rotated = self.pointer_image.rotate(0, expand=True)
+        self.pointer_image_rotated = self.pointer_image.rotate(87, expand=True)
         self.tk_pointer_image = ImageTk.PhotoImage(self.pointer_image_rotated)
 
         self.load_image = Image.open("V1/Resources/foreground.png")
@@ -62,10 +64,23 @@ class MainWindow():
         self.canvas_image_green_light = self.mainwindow_canvas.create_image(260,313,image=self.tk_green_light_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_green_light, state="hidden")
 
+        #Activate pointer
+        self.mainwindow_canvas.after(50,self.set_pointer)
+
+    def set_pointer(self):
+        #172 degrees pointer (+86 to -86) 
+        self.angle = 86 - ((self.spot1.power/12000) * 172) + random.randint(-1, 1)
+        self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
+        self.rotated_pointer_image= ImageTk.PhotoImage(self.temp_rotate_image)
+        self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image)
+        self.mainwindow_canvas.after(500, self.set_pointer)
+        
+
+
+    def spacebar(self, e):
+        self.toggle_red_light()
+
     def toggle_red_light(self):
-        #global my_canvas
-        #global red_light_object
-        #global show
 
         if self.show:
             self.mainwindow_canvas.itemconfig(self.canvas_image_red_light, state="hidden")
@@ -75,36 +90,4 @@ class MainWindow():
             self.mainwindow_canvas.itemconfig(self.canvas_image_red_light, state="normal")
             self.show = True
             self.mainwindow_canvas.after(600, self.toggle_red_light)
-
-    def spacebar(self, e):
-        self.toggle_red_light()
-
-    def keyleft(self, e):
-        #global angle
-        #global image_pointer_object_left
-        #global image_pointer_object_right
-        #global my_canvas
-        #global img
-        #global pointerimg
-
-        self.angle += 1
-        self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
-        self.rotated_pointer_image= ImageTk.PhotoImage(self.temp_rotate_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image)
-        #self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, image=self.rotated_pointer_image)
-
-
-    def keyright(self, e):
-        #global angle
-        #global image_pointer_object_left
-        #global image_pointer_object_right
-        #global my_canvas
-        #global img
-        #global pointerimg
-
-        self.angle -= 1
-        self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
-        self.rotated_pointer_image= ImageTk.PhotoImage(self.temp_rotate_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image)
-        #self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, image=self.rotated_pointer_image)
 
