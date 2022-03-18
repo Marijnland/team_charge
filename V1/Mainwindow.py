@@ -50,10 +50,10 @@ class MainWindow():
         self.mainwindow_canvas.create_image(400,240,image=self.tk_background_image)
 
         self.canvas_image_pointer_left = self.mainwindow_canvas.create_image(210,260,image=self.tk_pointer_image)
-        #self.canvas_image_pointer_right = self.mainwindow_canvas.create_image(597,260,image=self.tk_pointer_image)
+        self.canvas_image_pointer_right = self.mainwindow_canvas.create_image(597,260,image=self.tk_pointer_image)
 
         self.mainwindow_canvas.create_image(210,270,image=self.tk_foreground_image)
-        #self.mainwindow_canvas.create_image(597,270,image=self.tk_foreground_image)
+        self.mainwindow_canvas.create_image(597,270,image=self.tk_foreground_image)
 
         self.canvas_image_red_light = self.mainwindow_canvas.create_image(269,313,image=self.tk_red_light_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_red_light, state="hidden")
@@ -71,8 +71,14 @@ class MainWindow():
         #172 degrees pointer (+86 to -86) 
         self.angle = 86 - ((self.spot1.power/12000) * 172) + random.randint(-1, 1)
         self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
-        self.rotated_pointer_image= ImageTk.PhotoImage(self.temp_rotate_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image)
+        self.rotated_pointer_image_left= ImageTk.PhotoImage(self.temp_rotate_image)
+        self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image_left)
+ 
+        self.angle = 86 - ((self.spot2.power/12000) * 172) + random.randint(-1, 1)
+        self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
+        self.rotated_pointer_image_right= ImageTk.PhotoImage(self.temp_rotate_image)
+        self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, image=self.rotated_pointer_image_right)
+
         self.mainwindow_canvas.after(500, self.set_pointer)
         
 

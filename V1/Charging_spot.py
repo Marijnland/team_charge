@@ -44,8 +44,6 @@ class charging_spot:
                 self.power = self.I2 * self.V2
             elif (self.I3 > 1):
                 self.power = self.I3 * self.V3
-            else:
-                self.power = 5000
 
         #set time
         if (self.is_active == False) & ((self.I1 > 1) | (self.I2 > 1) | (self.I3 > 1)):
