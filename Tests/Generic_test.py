@@ -110,25 +110,25 @@ window.bind("<space>", spacebar)
 
 
 #Load the images
-image = Image.open("Tests/Resources/background.png")
+image = Image.open("Resources/background.png")
 background = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/pointer.png")
+image = Image.open("Resources/pointer.png")
 img = image.resize((12,220), Image.ANTIALIAS)
 
 img2 = img.rotate(0, expand=True)
 pointer = ImageTk.PhotoImage(img2)
 
-image = Image.open("Tests/Resources/foreground.png")
+image = Image.open("Resources/foreground.png")
 foreground = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/red_light.png")
+image = Image.open("Resources/red_light.png")
 red_light = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/orange_light.png")
+image = Image.open("Resources/orange_light.png")
 orange_light = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/green_light.png")
+image = Image.open("Resources/green_light.png")
 green_light = ImageTk.PhotoImage(image)
 
 #Make frame to show the images in a canvas
@@ -150,6 +150,9 @@ my_canvas.create_image(210,270,image=foreground)
 red_light_object = my_canvas.create_image(269,313,image=red_light)
 my_canvas.itemconfig(red_light_object, state="hidden")
 
+my_canvas.create_text(100,100, text = "Poepie", font=("Helvetica",14), fill= "white")
+#my_label = Label(pointer_frame, text = "Poepie",font = ("Helvetica",14), fg = "black",  borderwidth=0)
+#my_label.place(x=100,y=100, anchor=N)
 
 
 #panel1 = Label(window, image = background)
@@ -174,10 +177,10 @@ my_canvas.itemconfig(red_light_object, state="hidden")
 
 
 #Make frame for data overlay
-data_frame = Frame(window, relief='raised', borderwidth=2)
+data_frame = Frame(window, relief='raised', borderwidth=0)
 data_frame.place(x=515, y=270, anchor=W)
 I3_data = Label(data_frame, text = "I3", font = ("Helvetica",14), fg = "white", bg = "black")
-#I3_data.pack()
+I3_data.pack()
 
     
 
