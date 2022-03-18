@@ -110,25 +110,25 @@ window.bind("<space>", spacebar)
 
 
 #Load the images
-image = Image.open("Tests/Resources/background.png")
+image = Image.open("V1/Resources/background.png")
 background = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/pointer.png")
+image = Image.open("V1/Resources/pointer.png")
 img = image.resize((12,220), Image.ANTIALIAS)
 
 img2 = img.rotate(0, expand=True)
 pointer = ImageTk.PhotoImage(img2)
 
-image = Image.open("Tests/Resources/foreground.png")
+image = Image.open("V1/Resources/foreground.png")
 foreground = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/red_light.png")
+image = Image.open("V1/Resources/red_light.png")
 red_light = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/orange_light.png")
+image = Image.open("V1/Resources/orange_light.png")
 orange_light = ImageTk.PhotoImage(image)
 
-image = Image.open("Tests/Resources/green_light.png")
+image = Image.open("V1/Resources/green_light.png")
 green_light = ImageTk.PhotoImage(image)
 
 #Make frame to show the images in a canvas
