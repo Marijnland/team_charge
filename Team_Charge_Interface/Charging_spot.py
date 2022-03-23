@@ -1,3 +1,4 @@
+import time
 
 class charging_spot:
     def __init__(self):
@@ -13,7 +14,6 @@ class charging_spot:
         self.is_three_phase = False
         self.start_time = 0
         self.end_time = 0
-        self.total_time = 0
         self.power = 0
 
     def update_measurements(self, variables):
@@ -44,13 +44,13 @@ class charging_spot:
             elif (self.I3 > 1):
                 self.power = self.I3 * self.V3
 
-        #set time
-        if (self.is_active == False) & ((self.I1 > 1) | (self.I2 > 1) | (self.I3 > 1)):
-            self.is_active = True
-            self.start_time = variables["Time"]
-        elif (self.is_active == True) & ((self.I1 > 1) | (self.I2 > 1) | (self.I3 > 1)):
-            self.total_time = variables["Time"] - self.start_time
-        elif (self.is_active == True) & ((self.I1 < 1) | (self.I2 < 1) | (self.I3 < 1)):
-            self.is_active = False
-            self.end_time = variables["Time"] - self.start_time
-        print(self.total_time)
+    def start_charge(self):
+
+        self.is_active = True
+        self.start_time = int(time.time())
+
+    def stop_charge(self):
+        
+        self.is_active = False
+        self.end_time = int(time.time())
+        

@@ -49,15 +49,17 @@ class MainWindow():
         #x,y is middle point of image (800x480)/2:
         self.mainwindow_canvas.create_image(400,240,image=self.tk_background_image)
 
-        self.canvas_image_pointer_left = self.mainwindow_canvas.create_image(210,260,image=self.tk_pointer_image)
-        self.canvas_image_pointer_right = self.mainwindow_canvas.create_image(597,260,image=self.tk_pointer_image)
+        #Pointers, hidden by default
+        self.canvas_image_pointer_left = self.mainwindow_canvas.create_image(210,260,image=self.tk_pointer_image, state="hidden")
+        self.canvas_image_pointer_right = self.mainwindow_canvas.create_image(597,260,image=self.tk_pointer_image, state="hidden")
 
-        self.mainwindow_canvas.create_image(210,270,image=self.tk_foreground_image)
-        self.mainwindow_canvas.create_image(597,270,image=self.tk_foreground_image)
+        #Foreground, hidden by default
+        self.canvas_image_foreground_left = self.mainwindow_canvas.create_image(210,270,image=self.tk_foreground_image, state="hidden")
+        self.canvas_image_foreground_right = self.mainwindow_canvas.create_image(597,270,image=self.tk_foreground_image, state="hidden")
 
+        #Warning lights, hidden by default
         self.canvas_image_red_light_left = self.mainwindow_canvas.create_image(269,313,image=self.tk_red_light_image, state="hidden")
         self.canvas_image_red_light_right = self.mainwindow_canvas.create_image(656,313,image=self.tk_red_light_image, state="hidden")
-
 
         self.canvas_image_orange_light_left = self.mainwindow_canvas.create_image(212,340,image=self.tk_orange_light_image, state="hidden")
         self.canvas_image_orange_light_right = self.mainwindow_canvas.create_image(599,340,image=self.tk_orange_light_image, state="hidden")
@@ -65,14 +67,35 @@ class MainWindow():
         self.canvas_image_green_light_left = self.mainwindow_canvas.create_image(152,313,image=self.tk_green_light_image, state="hidden")
         self.canvas_image_green_light_right = self.mainwindow_canvas.create_image(539,313,image=self.tk_green_light_image, state="hidden")
 
-        self.canvas_text_power_left = self.mainwindow_canvas.create_text(213,227, text = str(round((self.spot1.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white")
-        self.canvas_text_power_right = self.mainwindow_canvas.create_text(600,227, text = str(round((self.spot2.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white")
+        #Power info, hidden by default
+        self.canvas_text_power_left = self.mainwindow_canvas.create_text(213,227, text = str(round((self.spot1.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_power_right = self.mainwindow_canvas.create_text(600,227, text = str(round((self.spot2.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
 
         #Activate frame drawer
         self.mainwindow_canvas.after(50,self.draw_frame)
 
+
+
     def draw_frame(self):
-        #172 degrees pointer (+86 to -86) 
+        #172 degrees pointer (+86 to -86)
+        if (self.spot1.is_active):
+            self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, state="normal")
+            self.mainwindow_canvas.itemconfig(self.canvas_text_power_left, state="normal")
+            self.mainwindow_canvas.itemconfig(self.canvas_image_foreground_left, state="normal")
+        else:
+            self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, state="hidden")
+            self.mainwindow_canvas.itemconfig(self.canvas_text_power_left, state="hidden")
+            self.mainwindow_canvas.itemconfig(self.canvas_image_foreground_left, state="hidden")
+
+        if (self.spot2.is_active):
+            self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, state="normal")
+            self.mainwindow_canvas.itemconfig(self.canvas_text_power_right, state="normal")
+            self.mainwindow_canvas.itemconfig(self.canvas_image_foreground_right, state="normal")
+        else:
+            self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, state="hidden")
+            self.mainwindow_canvas.itemconfig(self.canvas_text_power_right, state="hidden")
+            self.mainwindow_canvas.itemconfig(self.canvas_image_foreground_right, state="hidden")
+            
         self.angle = 86 - ((self.spot1.power/12000) * 172) + random.randint(-1, 1)
         self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
         self.rotated_pointer_image_left= ImageTk.PhotoImage(self.temp_rotate_image)
