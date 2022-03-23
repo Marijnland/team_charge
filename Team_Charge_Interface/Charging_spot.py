@@ -15,6 +15,8 @@ class charging_spot:
         self.start_time = 0
         self.end_time = 0
         self.power = 0
+        self.kwh = 0
+        self.last_update_time = 0
 
     def update_measurements(self, variables):
         self.V1 = variables["V1"]
@@ -44,10 +46,21 @@ class charging_spot:
             elif (self.I3 > 1):
                 self.power = self.I3 * self.V3
 
+        #set kwh
+        if self.is_three_phase:
+            self.kwh += (3 * (self.I1 * self.V1)) * (0.000277777778 * (int(time.time()) - self.last_update_time))
+        else:
+            self.kwh += (self.I1 * self.V1) * (0.000277777778 * (int(time.time()) - self.last_update_time))
+        
+        print(self.kwh)
+        self.last_update_time = int(time.time())
+
     def start_charge(self):
 
         self.is_active = True
         self.start_time = int(time.time())
+        self.last_update_time = int(time.time())
+        self.kwh = 0
 
     def stop_charge(self):
         
