@@ -75,13 +75,17 @@ class MainWindow():
         self.canvas_image_green_light_left = self.mainwindow_canvas.create_image(152,313,image=self.tk_green_light_image, state="hidden")
         self.canvas_image_green_light_right = self.mainwindow_canvas.create_image(539,313,image=self.tk_green_light_image, state="hidden")
 
+        #Global time and date
+        self.canvas_text_global_time = self.mainwindow_canvas.create_text(400,70,text="Placeholder", font=("Helvetica",16, "bold"), fill = "white")
+        self.canvas_text_global_date = self.mainwindow_canvas.create_text(400,91,text="Placeholder", font=("Helvetica",16), fill = "white")
+        
         #Power info, hidden by default
-        self.canvas_text_power_left = self.mainwindow_canvas.create_text(213,227, text = str(round((self.spot1.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
-        self.canvas_text_power_right = self.mainwindow_canvas.create_text(600,227, text = str(round((self.spot2.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_power_left = self.mainwindow_canvas.create_text(213,247, text = str(round((self.spot1.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_power_right = self.mainwindow_canvas.create_text(600,247, text = str(round((self.spot2.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
 
         #Time info, hidden by default
-        self.canvas_text_time_left = self.mainwindow_canvas.create_text(213,246, text = "Placeholder", font=("Helvetica",15), fill="white", state="hidden")
-        self.canvas_text_time_right = self.mainwindow_canvas.create_text(600,246, text = "Placeholder", font=("Helvetica",15), fill="white", state="hidden")
+        self.canvas_text_time_left = self.mainwindow_canvas.create_text(213,266, text = "Placeholder", font=("Helvetica",15), fill="white", state="hidden")
+        self.canvas_text_time_right = self.mainwindow_canvas.create_text(600,266, text = "Placeholder", font=("Helvetica",15), fill="white", state="hidden")
 
         #Present card
         self.canvas_image_present_card_left = self.mainwindow_canvas.create_image(207,400, image=self.tk_present_card_image)
@@ -130,15 +134,20 @@ class MainWindow():
             self.mainwindow_canvas.itemconfig(self.canvas_text_power_right, state="hidden")
             self.mainwindow_canvas.itemconfig(self.canvas_image_foreground_right, state="hidden")
             self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_present_card_right, state="normal")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_kwh_counter_right, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_right, state="hidden")
+            self.mainwindow_canvas.itemconfig(self.canvas_image_present_card_right, state="hidden")
+            self.mainwindow_canvas.itemconfig(self.canvas_image_kwh_counter_right, state="normal")
+            self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_right, state="normal")
 
 
         self.mainwindow_canvas.after(500, self.update_active_elements)
 
     def draw_frame(self):
         #172 degrees pointer (+86 to -86)
+
+        #global
+        self.mainwindow_canvas.itemconfig(self.canvas_text_global_time, text = time.strftime("%H:%M", time.localtime(time.time())))
+        self.mainwindow_canvas.itemconfig(self.canvas_text_global_date, text = time.strftime("%m-%d-%Y", time.localtime(time.time())))
+
         
         #Left spot (1)
         self.angle = 86 - ((self.spot1.power/12000) * 172) + random.randint(-1, 1)
@@ -146,7 +155,7 @@ class MainWindow():
         self.rotated_pointer_image_left= ImageTk.PhotoImage(self.temp_rotate_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image_left)
         self.mainwindow_canvas.itemconfig(self.canvas_text_power_left, text = str(round((self.spot1.power/1000),1)) + " kW")
-        self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, text = str(int((time.time() - self.spot1.start_time) / 60)) + ":" + str(int((time.time() - self.spot1.start_time) % 60)))
+        self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, text = str(int((time.time() - self.spot1.start_time) / 3600)) + ":" + str(int((time.time() - self.spot1.start_time) / 60)) + ":" + str(int((time.time() - self.spot1.start_time) % 60)))
         self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_left, text = str(int(self.spot1.kwh/100)) + "    " + str(int((self.spot1.kwh/10)%10)) + "    " + str(int(self.spot1.kwh%10)) + "         "  + str(int((self.spot1.kwh*10)%10)) + "    " + str(int((self.spot1.kwh*100)%10)))
         
                                           
@@ -156,9 +165,8 @@ class MainWindow():
         self.rotated_pointer_image_right= ImageTk.PhotoImage(self.temp_rotate_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, image=self.rotated_pointer_image_right)
         self.mainwindow_canvas.itemconfig(self.canvas_text_power_right, text = str(round((self.spot2.power/1000),1)) + " kW")
-        self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, text = str(int((time.time() - self.spot2.start_time) / 60)) + ":" + str(int((time.time() - self.spot2.start_time) % 60)))
+        self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, text = str(int((time.time() - self.spot2.start_time) / 3600)) + ":" + str(int((time.time() - self.spot2.start_time) / 60)) + ":" + str(int((time.time() - self.spot2.start_time) % 60)))
         self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_right, text = str(int(self.spot2.kwh/100)) + "    " + str(int((self.spot2.kwh/10)%10)) + "    " + str(int(self.spot2.kwh%10)) + "         " + str(int((self.spot2.kwh*10)%10)) + "    " + str(int((self.spot2.kwh*100)%10)))
-
 
         self.mainwindow_canvas.after(500, self.draw_frame)
         
