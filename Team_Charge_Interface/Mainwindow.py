@@ -14,8 +14,8 @@ class MainWindow():
         self.main = main
         main.title("Welcome to the CHARGE interface!")
         main.geometry('800x480')
-        #main.bind("<Escape>", lambda event: window.attributes("-fullscreen", False))
-        main.bind("<space>", self.spacebar)
+        #window.attributes("-fullscreen", True)
+        main.bind("<Escape>", lambda event: main.attributes("-fullscreen", False))
 
         #Load the images
         self.load_image = Image.open("Resources/background.png")
@@ -55,26 +55,20 @@ class MainWindow():
         self.mainwindow_canvas.create_image(210,270,image=self.tk_foreground_image)
         self.mainwindow_canvas.create_image(597,270,image=self.tk_foreground_image)
 
-        self.canvas_image_red_light_left = self.mainwindow_canvas.create_image(269,313,image=self.tk_red_light_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_red_light_left, state="hidden")
-        self.canvas_image_red_light_right = self.mainwindow_canvas.create_image(656,313,image=self.tk_red_light_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_red_light_right, state="hidden")
+        self.canvas_image_red_light_left = self.mainwindow_canvas.create_image(269,313,image=self.tk_red_light_image, state="hidden")
+        self.canvas_image_red_light_right = self.mainwindow_canvas.create_image(656,313,image=self.tk_red_light_image, state="hidden")
 
 
-        self.canvas_image_orange_light_left = self.mainwindow_canvas.create_image(212,340,image=self.tk_orange_light_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_left, state="hidden")
-        self.canvas_image_orange_light_right = self.mainwindow_canvas.create_image(599,340,image=self.tk_orange_light_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_right, state="hidden")
+        self.canvas_image_orange_light_left = self.mainwindow_canvas.create_image(212,340,image=self.tk_orange_light_image, state="hidden")
+        self.canvas_image_orange_light_right = self.mainwindow_canvas.create_image(599,340,image=self.tk_orange_light_image, state="hidden")
 
-        self.canvas_image_green_light_left = self.mainwindow_canvas.create_image(152,313,image=self.tk_green_light_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_left, state="hidden")
-        self.canvas_image_green_light_right = self.mainwindow_canvas.create_image(539,313,image=self.tk_green_light_image)
-        self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_right, state="hidden")
+        self.canvas_image_green_light_left = self.mainwindow_canvas.create_image(152,313,image=self.tk_green_light_image, state="hidden")
+        self.canvas_image_green_light_right = self.mainwindow_canvas.create_image(539,313,image=self.tk_green_light_image, state="hidden")
 
         self.canvas_text_power_left = self.mainwindow_canvas.create_text(213,227, text = str(round((self.spot1.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white")
         self.canvas_text_power_right = self.mainwindow_canvas.create_text(600,227, text = str(round((self.spot2.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white")
 
-        #Activate framer drawer
+        #Activate frame drawer
         self.mainwindow_canvas.after(50,self.draw_frame)
 
     def draw_frame(self):
@@ -95,29 +89,5 @@ class MainWindow():
         self.mainwindow_canvas.after(500, self.draw_frame)
         
 
-
-    def spacebar(self, e):
-        self.toggle_red_light()
-
-    def toggle_red_light(self):
-
-        if self.show:
-            self.mainwindow_canvas.itemconfig(self.canvas_image_red_light_right, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_red_light_left, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_right, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_left, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_right, state="hidden")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_left, state="hidden")
-            self.show = False
-            self.mainwindow_canvas.after(600, self.toggle_red_light)
-        else:
-            self.mainwindow_canvas.itemconfig(self.canvas_image_red_light_right, state="normal")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_red_light_left, state="normal")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_right, state="normal")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_left, state="normal")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_right, state="normal")
-            self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_left, state="normal")
-            self.show = True
-            self.mainwindow_canvas.after(600, self.toggle_red_light)
 
 
