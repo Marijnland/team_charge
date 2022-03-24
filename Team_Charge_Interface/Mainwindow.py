@@ -96,8 +96,8 @@ class MainWindow():
         self.canvas_image_kwh_counter_right = self.mainwindow_canvas.create_image(594,400, image=self.tk_kwh_counter_image, state="hidden")
 
         #kwh text info, hidden by default
-        self.canvas_text_kwh_left = self.mainwindow_canvas.create_text(176,400, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
-        self.canvas_text_kwh_right = self.mainwindow_canvas.create_text(565,400, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_kwh_left = self.mainwindow_canvas.create_text(176,401, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_kwh_right = self.mainwindow_canvas.create_text(565,401, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
 
         #Activate frame drawer
         self.mainwindow_canvas.after(50,self.draw_frame)
@@ -169,7 +169,7 @@ class MainWindow():
 
         
         #Left spot (1)
-        self.angle = 86 - ((self.spot1.power/12000) * 172) + random.randint(-1, 1)
+        self.angle = 86 - ((self.spot1.power/25000) * 172) + random.randint(-1, 1)
         self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
         self.rotated_pointer_image_left= ImageTk.PhotoImage(self.temp_rotate_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image_left)
@@ -179,7 +179,7 @@ class MainWindow():
         
                                           
         #Right spot (2)
-        self.angle = 86 - ((self.spot2.power/12000) * 172) + random.randint(-1, 1)
+        self.angle = 86 - ((self.spot2.power/25000) * 172) + random.randint(-1, 1)
         self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
         self.rotated_pointer_image_right= ImageTk.PhotoImage(self.temp_rotate_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, image=self.rotated_pointer_image_right)

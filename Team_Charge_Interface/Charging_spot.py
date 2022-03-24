@@ -52,7 +52,6 @@ class charging_spot:
         else:
             self.kwh += (self.power * (0.000277777778 * (int(time.time()) - self.last_update_time)) / 1000)
         
-        print(self.kwh)
         self.last_update_time = int(time.time())
 
     def start_charge(self):
