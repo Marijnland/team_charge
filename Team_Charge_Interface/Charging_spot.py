@@ -50,7 +50,7 @@ class charging_spot:
         if self.is_three_phase:
             self.kwh += (3 * (self.I1 * self.V1)) * (0.000277777778 * (int(time.time()) - self.last_update_time))
         else:
-            self.kwh += (self.I1 * self.V1) * (0.000277777778 * (int(time.time()) - self.last_update_time))
+            self.kwh += (self.power * (0.000277777778 * (int(time.time()) - self.last_update_time)) / 1000)
         
         print(self.kwh)
         self.last_update_time = int(time.time())

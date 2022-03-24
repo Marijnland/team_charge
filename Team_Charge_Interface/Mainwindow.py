@@ -96,8 +96,8 @@ class MainWindow():
         self.canvas_image_kwh_counter_right = self.mainwindow_canvas.create_image(594,400, image=self.tk_kwh_counter_image, state="hidden")
 
         #kwh text info, hidden by default
-        self.canvas_text_kwh_left = self.mainwindow_canvas.create_text(175,400, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
-        self.canvas_text_kwh_right = self.mainwindow_canvas.create_text(564,400, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_kwh_left = self.mainwindow_canvas.create_text(176,400, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
+        self.canvas_text_kwh_right = self.mainwindow_canvas.create_text(565,400, text= "placeholder", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
 
         #Activate frame drawer
         self.mainwindow_canvas.after(50,self.draw_frame)
