@@ -47,11 +47,7 @@ class charging_spot:
                 self.power = self.I3 * self.V3
 
         #set kwh
-        if self.is_three_phase:
-            self.kwh += (3 * (self.I1 * self.V1)) * (0.000277777778 * (int(time.time()) - self.last_update_time))
-        else:
-            self.kwh += (self.power * (0.000277777778 * (int(time.time()) - self.last_update_time)) / 1000)
-        
+        self.kwh += (self.power * (0.000277777778 * (int(time.time()) - self.last_update_time)) / 1000)
         self.last_update_time = int(time.time())
 
     def start_charge(self):

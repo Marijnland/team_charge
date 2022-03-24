@@ -167,13 +167,17 @@ class MainWindow():
         self.mainwindow_canvas.itemconfig(self.canvas_text_global_time, text = time.strftime("%H:%M", time.localtime(time.time())))
         self.mainwindow_canvas.itemconfig(self.canvas_text_global_date, text = time.strftime("%d-%m-%Y", time.localtime(time.time())))
 
-        
+
         #Left spot (1)
         self.angle = 86 - ((self.spot1.power/25000) * 172) + random.randint(-1, 1)
         self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
         self.rotated_pointer_image_left= ImageTk.PhotoImage(self.temp_rotate_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_left, image=self.rotated_pointer_image_left)
         self.mainwindow_canvas.itemconfig(self.canvas_text_power_left, text = str(round((self.spot1.power/1000),1)) + " kW")
+        if((int(time.time()) - self.spot1.start_time > 14400) and ((int(time.time()) % 2) == 1)):
+            self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, fill="red")
+        else:
+            self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, fill="white")      
         self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, text = str(int((time.time() - self.spot1.start_time) / 3600)) + ":" + str(int(((time.time() - self.spot1.start_time) / 60)%60)) + ":" + str(int((time.time() - self.spot1.start_time) % 60)))
         self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_left, text = str(int(self.spot1.kwh/100)) + "     " + str(int((self.spot1.kwh/10)%10)) + "     " + str(int(self.spot1.kwh%10)) + "     "  + str(int((self.spot1.kwh*10)%10)) + "     " + str(int((self.spot1.kwh*100)%10)))
         
@@ -184,6 +188,10 @@ class MainWindow():
         self.rotated_pointer_image_right= ImageTk.PhotoImage(self.temp_rotate_image)
         self.mainwindow_canvas.itemconfig(self.canvas_image_pointer_right, image=self.rotated_pointer_image_right)
         self.mainwindow_canvas.itemconfig(self.canvas_text_power_right, text = str(round((self.spot2.power/1000),1)) + " kW")
+        if((int(time.time()) - self.spot2.start_time > 14400) and ((int(time.time()) % 2) == 1)):
+            self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, fill="red")
+        else:
+            self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, fill="white") 
         self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, text = str(int((time.time() - self.spot2.start_time) / 3600)) + ":" + str(int(((time.time() - self.spot2.start_time) / 60)%60)) + ":" + str(int((time.time() - self.spot2.start_time) % 60)))
         self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_right, text = str(int(self.spot2.kwh/100)) + "     " + str(int((self.spot2.kwh/10)%10)) + "     " + str(int(self.spot2.kwh%10)) + "     " + str(int((self.spot2.kwh*10)%10)) + "     " + str(int((self.spot2.kwh*100)%10)))
 
