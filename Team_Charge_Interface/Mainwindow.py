@@ -6,7 +6,6 @@ import time
 class MainWindow():
 
     angle = 0
-    show = False
 
     def __init__(self, main, chargingspot_1, chargingspot_2):
         self.spot1 = chargingspot_1
@@ -45,6 +44,15 @@ class MainWindow():
         self.load_image = Image.open("Resources/kwh counter.png")
         self.tk_kwh_counter_image = ImageTk.PhotoImage(self.load_image)
 
+        self.load_image = Image.open("Resources/welcome_message.png")
+        self.tk_welcome_message_image= ImageTk.PhotoImage(self.load_image)
+
+        self.load_image = Image.open("Resources/leave_message.png")
+        self.tk_leave_message_image = ImageTk.PhotoImage(self.load_image)
+
+        self.load_image = Image.open("Resources/error_message.png")
+        self.tk_error_message_image = ImageTk.PhotoImage(self.load_image)
+
 
         #Make frame to show the images in a canvas
         self.mainwindow_frame = Frame(main)
@@ -74,6 +82,16 @@ class MainWindow():
 
         self.canvas_image_green_light_left = self.mainwindow_canvas.create_image(152,313,image=self.tk_green_light_image, state="hidden")
         self.canvas_image_green_light_right = self.mainwindow_canvas.create_image(539,313,image=self.tk_green_light_image, state="hidden")
+
+        #User messages, hidden by default
+        self.canvas_image_welcome_message_left = self.mainwindow_canvas.create_image(210,260, image=self.tk_welcome_message_image, state="hidden")
+        self.canvas_image_welcome_message_right = self.mainwindow_canvas.create_image(597,260, image=self.tk_welcome_message_image, state="hidden")
+
+        self.canvas_image_leave_message_left = self.mainwindow_canvas.create_image(210,260, image=self.tk_leave_message_image, state="hidden")
+        self.canvas_image_leave_message_right = self.mainwindow_canvas.create_image(597,260, image=self.tk_leave_message_image, state="hidden")
+
+        self.canvas_image_error_message_left = self.mainwindow_canvas.create_image(210,260, image=self.tk_error_message_image, state="hidden")
+        self.canvas_image_error_message_right = self.mainwindow_canvas.create_image(597,260, image=self.tk_error_message_image, state="hidden")
 
         #Global time and date
         self.canvas_text_global_time = self.mainwindow_canvas.create_text(400,70,text="Placeholder", font=("Helvetica",16, "bold"), fill = "white")
@@ -157,7 +175,10 @@ class MainWindow():
             self.mainwindow_canvas.itemconfig(self.canvas_image_orange_light_right, state="hidden")
             self.mainwindow_canvas.itemconfig(self.canvas_image_green_light_right, state="hidden")
 
-
+        if (self.spot1.message or self.spot2.message):
+            print("Show message")
+            self.show_message()
+            
         self.mainwindow_canvas.after(500, self.update_active_elements)
 
     def draw_frame(self):
@@ -167,7 +188,7 @@ class MainWindow():
         self.mainwindow_canvas.itemconfig(self.canvas_text_global_time, text = time.strftime("%H:%M", time.localtime(time.time())))
         self.mainwindow_canvas.itemconfig(self.canvas_text_global_date, text = time.strftime("%d-%m-%Y", time.localtime(time.time())))
 
-
+        
         #Left spot (1)
         self.angle = 86 - ((self.spot1.power/25000) * 172) + random.randint(-1, 1)
         self.temp_rotate_image = self.pointer_image.rotate(self.angle, expand=True)
@@ -198,5 +219,42 @@ class MainWindow():
         self.mainwindow_canvas.after(500, self.draw_frame)
         
 
-
+    def show_message(self):
+        if self.spot1.message:
+            if(self.spot1.message == 1):
+                self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_left, state="normal")
+                self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot1)
+            elif(self.spot1.message == 2):
+                self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_left, state="normal")
+                self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot1)
+            elif(self.spot1.message == 3):
+                self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_left, state="normal")
+                self.spot1.is_active = False
+                self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot1)
+            self.spot1.message = 0
+          
+        else:
+            if(self.spot2.message == 1):
+                self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_right, state="normal")
+                self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot2)
+            elif(self.spot2.message == 2):
+                self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_right, state="normal")
+                self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot2)
+            elif(self.spot2.message == 3):
+                self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_right, state="normal")
+                self.spot2.is_active = False
+                self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot2)
+            self.spot2.message = 0 
+            
+    def hide_message(self, set_active, spot):
+        
+        self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_left, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_left, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_left, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_right, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_right, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_right, state="hidden")
+        
+        if set_active:
+            spot.is_active = True
 

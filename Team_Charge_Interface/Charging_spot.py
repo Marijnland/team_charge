@@ -17,6 +17,7 @@ class charging_spot:
         self.power = 0
         self.kwh = 0
         self.last_update_time = 0
+        self.message = 0
 
     def update_measurements(self, variables):
         self.V1 = variables["V1"]
@@ -52,13 +53,14 @@ class charging_spot:
 
     def start_charge(self):
 
-        self.is_active = True
         self.start_time = int(time.time())
         self.last_update_time = int(time.time())
         self.kwh = 0
+        self.message = 1
 
     def stop_charge(self):
         
         self.is_active = False
         self.end_time = int(time.time())
+        self.message = 2
         

@@ -11,6 +11,7 @@ class MQTT():
         self.client.connect("broker.hivemq.com")
         self.client.subscribe("HANevse/#")
         print("Connected to MQTT")
+        self.client.on_disconnect = self.client.reconnect
 
     def on_message(self, client, userdata, message):
         self.msg = str(message.payload.decode("utf-8"))
@@ -27,15 +28,17 @@ class MQTT():
         
         elif (message.topic == "HANevse/allowUser"):
             #retrieve ints from the string
+            self.array =re.findall(r'\d+', self.msg)
             #//action=1  succesfull start new charge (charger is free and last stoped session > 20 sec ago)
+            #//action=4  succesful stop this charge session
+            #Not validated:
             #//action=2  charger is free, but you allready swiped the card in the last 20 sec (second swipe within 20sec)
             #//action=3  charger is occupied by annother user
-            #//action=4  succesful stop this charge session
             #//action=5  you just started a charge on this charger, but have another consecutive RFID read/swipe within 20 seconds
             #//action=6  you are already charging at another charger
             #//action=7  succesfull RFID read, but you are not in the userlist
 
-            self.array =re.findall(r'\d+', self.msg)
+ 
             if (self.array[1] == '1'):
                 if (self.array[0] == '1'):
                     self.spot1.start_charge()
@@ -48,6 +51,12 @@ class MQTT():
                 elif (self.array[0] == '2'):
                     self.spot2.stop_charge()
 
+            else:
+                if (self.array[0] == '1'):
+                    self.spot1.message = 3
+                elif (self.array[0] == '2'):
+                    self.spot2.message = 3
 
+            
 
             
