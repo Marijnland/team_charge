@@ -14,7 +14,8 @@ class MainWindow():
         self.main = main
         main.title("Welcome to the CHARGE interface!")
         main.geometry('800x480')
-        #main.attributes("-fullscreen", True)
+        main.config(cursor="none")
+        main.attributes("-fullscreen", True)
         main.bind("<Escape>", lambda event: main.attributes("-fullscreen", False))
 
         #Load the images
