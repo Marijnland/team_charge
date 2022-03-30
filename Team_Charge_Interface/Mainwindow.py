@@ -90,6 +90,11 @@ class MainWindow():
         self.canvas_image_leave_message_left = self.mainwindow_canvas.create_image(210,260, image=self.tk_leave_message_image, state="hidden")
         self.canvas_image_leave_message_right = self.mainwindow_canvas.create_image(597,260, image=self.tk_leave_message_image, state="hidden")
 
+        self.canvas_text_leave_message_time_left = self.mainwindow_canvas.create_text(210,313,text="Placeholder", font=("Helvetica",10), fill = "white", justify="center", state="hidden")
+        self.canvas_text_leave_message_time_right = self.mainwindow_canvas.create_text(597,313,text="Placeholder", font=("Helvetica",10), fill = "white",justify="center" ,state="hidden")
+        self.canvas_text_leave_message_kwh_left = self.mainwindow_canvas.create_text(210,357,text="Placeholder", font=("Helvetica",10), fill = "white", justify="center", state="hidden")
+        self.canvas_text_leave_message_kwh_right = self.mainwindow_canvas.create_text(597,357,text="Placeholder", font=("Helvetica",10), fill = "white", justify="center", state="hidden")
+
         self.canvas_image_error_message_left = self.mainwindow_canvas.create_image(210,260, image=self.tk_error_message_image, state="hidden")
         self.canvas_image_error_message_right = self.mainwindow_canvas.create_image(597,260, image=self.tk_error_message_image, state="hidden")
 
@@ -105,8 +110,8 @@ class MainWindow():
         self.canvas_text_power_right = self.mainwindow_canvas.create_text(600,247, text = str(round((self.spot2.power/1000),1))+ " kW", font=("Helvetica",16, "bold"), fill= "white", state="hidden")
 
         #Time info, hidden by default
-        self.canvas_text_time_left = self.mainwindow_canvas.create_text(213,267, text = "Placeholder", font=("Helvetica",15), fill="white", state="hidden")
-        self.canvas_text_time_right = self.mainwindow_canvas.create_text(600,267, text = "Placeholder", font=("Helvetica",15), fill="white", state="hidden")
+        self.canvas_text_time_left = self.mainwindow_canvas.create_text(213,267, text = "Placeholder", font=("Helvetica",14), fill="white", state="hidden")
+        self.canvas_text_time_right = self.mainwindow_canvas.create_text(600,267, text = "Placeholder", font=("Helvetica",14), fill="white", state="hidden")
 
         #Present card
         self.canvas_image_present_card_left = self.mainwindow_canvas.create_image(207,400, image=self.tk_present_card_image)
@@ -202,7 +207,7 @@ class MainWindow():
             self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, fill="red")
         else:
             self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, fill="white")      
-        self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, text = str(int((time.time() - self.spot1.start_time) / 3600)) + ":" + str(int(((time.time() - self.spot1.start_time) / 60)%60)) + ":" + str(int((time.time() - self.spot1.start_time) % 60)))
+        self.mainwindow_canvas.itemconfig(self.canvas_text_time_left, text =time.strftime('%H:%M:%S', time.gmtime(time.time()-self.spot1.start_time)))
         self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_left, text = str(int(self.spot1.kwh/100)) + "     " + str(int((self.spot1.kwh/10)%10)) + "     " + str(int(self.spot1.kwh%10)) + "     "  + str(int((self.spot1.kwh*10)%10)) + "     " + str(int((self.spot1.kwh*100)%10)))
         
                                           
@@ -216,7 +221,7 @@ class MainWindow():
             self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, fill="red")
         else:
             self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, fill="white") 
-        self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, text = str(int((time.time() - self.spot2.start_time) / 3600)) + ":" + str(int(((time.time() - self.spot2.start_time) / 60)%60)) + ":" + str(int((time.time() - self.spot2.start_time) % 60)))
+        self.mainwindow_canvas.itemconfig(self.canvas_text_time_right, text = time.strftime('%H:%M:%S', time.gmtime(time.time()-self.spot2.start_time)))
         self.mainwindow_canvas.itemconfig(self.canvas_text_kwh_right, text = str(int(self.spot2.kwh/100)) + "     " + str(int((self.spot2.kwh/10)%10)) + "     " + str(int(self.spot2.kwh%10)) + "     " + str(int((self.spot2.kwh*10)%10)) + "     " + str(int((self.spot2.kwh*100)%10)))
 
         self.mainwindow_canvas.after(500, self.draw_frame)
@@ -228,6 +233,8 @@ class MainWindow():
                 self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_left, state="normal")
                 self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot1)
             elif(self.spot1.message == 2):
+                self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_time_left, text=time.strftime('%H:%M:%S', time.gmtime(self.spot1.end_time - self.spot1.start_time)), state="normal")
+                self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_kwh_left, text=self.spot1.kwh, state="normal")
                 self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_left, state="normal")
                 self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot1)
             elif(self.spot1.message == 3):
@@ -245,6 +252,8 @@ class MainWindow():
                 self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_right, state="normal")
                 self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot2)
             elif(self.spot2.message == 2):
+                self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_time_right, text=time.strftime('%H:%M:%S', time.gmtime(self.spot2.end_time - self.spot2.start_time)), state="normal")
+                self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_kwh_right, text=self.spot2.kwh, state="normal")
                 self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_right, state="normal")
                 self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot2)
             elif(self.spot2.message == 3):
@@ -261,9 +270,13 @@ class MainWindow():
         
         self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_left, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_left, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_time_left, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_kwh_left, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_left, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_right, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_right, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_time_right, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_text_leave_message_kwh_right, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_right, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_text_error_sub_message_left, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_text_error_sub_message_right, state="hidden")
