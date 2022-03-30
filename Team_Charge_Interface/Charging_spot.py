@@ -3,6 +3,7 @@ import time
 class charging_spot:
     def __init__(self):
         self.is_active = False
+        self.logged_in = False
         self.V1 = 0
         self.V2 = 0
         self.V3 = 0
@@ -18,6 +19,7 @@ class charging_spot:
         self.kwh = 0
         self.last_update_time = 0
         self.message = 0
+        self.sub_message = ""
 
     def update_measurements(self, variables):
         self.V1 = variables["V1"]
@@ -46,6 +48,8 @@ class charging_spot:
                 self.power = self.I2 * self.V2
             elif (self.I3 > 1):
                 self.power = self.I3 * self.V3
+            else:
+                self.power = 0
 
         #set kwh
         self.kwh += (self.power * (0.000277777778 * (int(time.time()) - self.last_update_time)) / 1000)
@@ -57,10 +61,12 @@ class charging_spot:
         self.last_update_time = int(time.time())
         self.kwh = 0
         self.message = 1
+        self.logged_in = True
 
     def stop_charge(self):
         
         self.is_active = False
         self.end_time = int(time.time())
         self.message = 2
+        self.logged_in = False
         

@@ -14,7 +14,7 @@ class MainWindow():
         self.main = main
         main.title("Welcome to the CHARGE interface!")
         main.geometry('800x480')
-        #window.attributes("-fullscreen", True)
+        #main.attributes("-fullscreen", True)
         main.bind("<Escape>", lambda event: main.attributes("-fullscreen", False))
 
         #Load the images
@@ -92,6 +92,9 @@ class MainWindow():
 
         self.canvas_image_error_message_left = self.mainwindow_canvas.create_image(210,260, image=self.tk_error_message_image, state="hidden")
         self.canvas_image_error_message_right = self.mainwindow_canvas.create_image(597,260, image=self.tk_error_message_image, state="hidden")
+
+        self.canvas_text_error_sub_message_left = self.mainwindow_canvas.create_text(210,280,text="Placeholder", font=("Helvetica",14, "bold"), fill = "white", justify="center", state="hidden")
+        self.canvas_text_error_sub_message_right = self.mainwindow_canvas.create_text(597,280,text="Placeholder", font=("Helvetica",14, "bold"), fill = "white",justify="center" ,state="hidden")
 
         #Global time and date
         self.canvas_text_global_time = self.mainwindow_canvas.create_text(400,70,text="Placeholder", font=("Helvetica",16, "bold"), fill = "white")
@@ -229,8 +232,12 @@ class MainWindow():
                 self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot1)
             elif(self.spot1.message == 3):
                 self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_left, state="normal")
+                self.mainwindow_canvas.itemconfig(self.canvas_text_error_sub_message_left, text=self.spot1.sub_message, state="normal")
                 self.spot1.is_active = False
-                self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot1)
+                if(self.spot1.logged_in):
+                    self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot1)
+                else:
+                    self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot1)
             self.spot1.message = 0
           
         else:
@@ -242,8 +249,12 @@ class MainWindow():
                 self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot2)
             elif(self.spot2.message == 3):
                 self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_right, state="normal")
+                self.mainwindow_canvas.itemconfig(self.canvas_text_error_sub_message_right, text=self.spot2.sub_message, state="normal")
                 self.spot2.is_active = False
-                self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot2)
+                if(self.spot2.logged_in):
+                    self.mainwindow_canvas.after(10000, self.hide_message, True, self.spot2)
+                else:
+                    self.mainwindow_canvas.after(10000, self.hide_message, False, self.spot2)
             self.spot2.message = 0 
             
     def hide_message(self, set_active, spot):
@@ -254,6 +265,8 @@ class MainWindow():
         self.mainwindow_canvas.itemconfig(self.canvas_image_welcome_message_right, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_leave_message_right, state="hidden")
         self.mainwindow_canvas.itemconfig(self.canvas_image_error_message_right, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_text_error_sub_message_left, state="hidden")
+        self.mainwindow_canvas.itemconfig(self.canvas_text_error_sub_message_right, state="hidden")
         
         if set_active:
             spot.is_active = True

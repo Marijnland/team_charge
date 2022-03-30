@@ -51,6 +51,21 @@ class MQTT():
                 elif (self.array[0] == '2'):
                     self.spot2.stop_charge()
 
+            elif (self.array[1] == '3'):
+                if (self.array[0] == '1'):
+                    self.spot1.message = 3
+                    self.spot1.sub_message = "Charger is occupied \nby another user"
+                elif (self.array[0] == '2'):
+                    self.spot2.message = 3   
+                    self.spot2.sub_message = "Charger is occupied \nby another user"
+            
+            elif (self.array[1] == '8'):
+                if (self.array[0] == '1'):
+                    self.spot1.message = 3
+                    self.spot1.sub_message = "You are not in the \nuserlist, go to \nwww.sustainablecharging.nl"
+                elif (self.array[0] == '2'):
+                    self.spot2.message = 3   
+                    self.spot2.sub_message = "You are not in the \nuserlist, go to \nwww.sustainablecharging.nl"
             else:
                 if (self.array[0] == '1'):
                     self.spot1.message = 3
