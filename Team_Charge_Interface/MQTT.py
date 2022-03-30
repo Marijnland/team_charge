@@ -69,9 +69,10 @@ class MQTT():
             else:
                 if (self.array[0] == '1'):
                     self.spot1.message = 3
+                    self.spot1.sub_message = "Please contact the \nsystem administrator"
                 elif (self.array[0] == '2'):
                     self.spot2.message = 3
-
+                    self.spot2.sub_message = "Please contact the \nsystem administrator"
             
 
             
