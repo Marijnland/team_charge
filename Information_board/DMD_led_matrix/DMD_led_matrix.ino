@@ -83,42 +83,39 @@ void setup(void)
 --------------------------------------------------------------------------------------*/
 void loop(void)
 {
-   byte b;
    
-   // 10 x 14 font clock, including demo of OR and NOR modes for pixels so that the flashing colon can be overlayed
-   dmd.clearScreen( true );
-   //dmd.selectFont(Arial_Black_16);
-    //dmd.selectFont(SystemFont5x7);
-  //32x16
-    drawDigit(0,0,0);
-    drawDigit(1,5,0);
-    drawDigit(2,10,0);
-    drawDigit(3,15,0);
-    drawDigit(4,20,0);
-    
-//dmd.drawString( 5,0, "99", 2, GRAPHICS_NORMAL );
-    //dmd.drawString( 2,9, "world,", 5, GRAPHICS_NORMAL );
-    //for(int i =0; i<512; i++)
-    //{
-      //dmd.writePixel( i%32, i/32, GRAPHICS_NORMAL, 1 );
-      //dmd.writePixel( (i-10)%32, (i-10)/32, GRAPHICS_NORMAL, 0 );
-
-      //dmd.writePixel( (512-i)%32, (512-i)/32, GRAPHICS_NORMAL, 1 );
-      //dmd.writePixel( (522-i)%32, (522-i)/32, GRAPHICS_NORMAL, 0 );
-
-      //delay(50);
-    //}
+  //dmd.selectFont(Arial_Black_16);
+  //dmd.selectFont(SystemFont5x7);
   
-   
-  delay(5000);
-     dmd.clearScreen( true );
+  //32x16 pixels
 
-    drawDigit(5,0,8);
-    drawDigit(6,5,8);
-    drawDigit(7,10,8);
-    drawDigit(8,15,8);
-    drawDigit(9,20,8);
-      delay(5000);
+  dmd.clearScreen( true );
+  drawDigit(0,0,0);
+  drawDigit(1,5,0);
+  drawDigit(2,10,0);
+  drawDigit(3,15,0);
+  drawDigit(4,20,0);
+    
+  delay(5000);
+  
+  dmd.clearScreen( true );
+  drawDigit(5,0,8);
+  drawDigit(6,5,8);
+  drawDigit(7,10,8);
+  drawDigit(8,15,8);
+  drawDigit(9,20,8);
+  
+  delay(5000);
+    
+
+  // for(int i =0; i<512; i++)
+  // {
+  //   dmd.writePixel( i%32, i/32, GRAPHICS_NORMAL, 1 );
+  //   delay(50);
+  // }
+
+   
+
 
    
 }
