@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "InformationBoard_MQTT_data_supplier", "InformationBoard_MQTT_data_supplier.pyproj", "{37D1DF14-C743-4656-AE20-5477841E0A96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37D1DF14-C743-4656-AE20-5477841E0A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D1DF14-C743-4656-AE20-5477841E0A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E4D9E46-0271-4943-B053-E41FAFCDBAF9}
+	EndGlobalSection
+EndGlobal
