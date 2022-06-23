@@ -4,8 +4,8 @@
 #include <PubSubClient.h>
 #include "LedControl.h"
 
-const char* ssid = "dlink-6F61";
-const char* password = "gratiswifi";
+const char* ssid = "";
+const char* password = "";
 const char* mqtt_server = "broker.mqttdashboard.com";
 
 WiFiClient espClient;
@@ -13,6 +13,8 @@ PubSubClient client(espClient);
 int car1phase, car2phase, car3phase, car4phase = 0;
 int co2saved, pvpower, gridpower, gridphases = 0;
 
+// Connect the dot matrices as follows: pin 2 from the feather on Din on the matrix, pin 4 to clk, pin 5 to cs
+// 13 displays chained
 LedControl lc=LedControl(2,4,5,13);
 
 unsigned long lastupdate = 0;
@@ -24,7 +26,6 @@ int dataPin = 0;
 int latchPin = 15;
 int clockPin = 13;
 
-bool pv[33];
 
 
 void set_led_matrices(void);
@@ -160,14 +161,14 @@ void setup() {
       lc.setIntensity(i,8);
       lc.clearDisplay(i);
   }
+  //Test to show digits on displays
   for(int i=0; i<8; i++)
     drawDigit(i+1, 2, -1, i);
   for(int i=0; i<5; i++)
     drawDigit(i+9, 2, -1, i);
 
   
-  for(int i=0;i<33;i++)
-    pv[i] = false;
+
 
   setup_wifi();
   client.setServer(mqtt_server, 1883);
@@ -197,53 +198,16 @@ void loop() {
 
 void update_leds()
 {
+	// to write a one to shift registers, 
+	// latchpin low
+	// datapin high (or low to write zero)
+	// clockpin high and then low
+	// latchpin high to enable output
   digitalWrite(latchPin, LOW);
-
-
-
-    // for(int i=0; i<33;i++)
-    // {
-    //   pv[32-i] = pv[31-i];
-    // }    
-    // if( ((pv_increment)%11 == 0))
-    //   pv[0] = true;
-    // else
-    //   pv[0] = false;
-
-    // for(int i=0; i<33;i++)
-    // {
-    //   digitalWrite(dataPin, pv[i]);
-    //   delay(1);
-    //   digitalWrite(clockPin, HIGH);
-    //   delay(1);
-    //   digitalWrite(clockPin, LOW);
-    //   delay(1);
-    // }
-    // for(int j=0; j<33; j++)
-    // {
-    //   if( ((j+pv_increment)%11 == 1) || ((j+pv_increment)%11 == 2) || ((j+pv_increment)%11 == 3) )
-    //   pv[j] = true;
-    //   else
-    //   pv[j] = false;
-    //   digitalWrite(dataPin, pv[j]);
-    //   digitalWrite(clockPin, HIGH);
-    //   digitalWrite(clockPin, LOW);
-
-    // }
-      if(pv_increment == 1)
-      digitalWrite(dataPin, HIGH);
-      else
-      digitalWrite(dataPin, LOW);
-      delay(1);
-      digitalWrite(clockPin, HIGH);
-      delay(1);
-      digitalWrite(clockPin, LOW);
-      delay(1);
+  digitalWrite(dataPin, HIGH);
+  digitalWrite(clockPin, HIGH);
+  digitalWrite(clockPin, LOW);
   digitalWrite(latchPin, HIGH);
-  pv_increment++;
-  if (pv_increment == 12)
-    pv_increment = 1;
-
 }
 
 
